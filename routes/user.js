@@ -1,18 +1,11 @@
 const express = require('express');
-const User = require('../models/User');
+const { signup, login } = require('../controllers/userController');
 const router = express.Router();
 
-// POST /api/v1/user/signup
-router.post('/signup', async (req, res) => {
-    const { username, password, email } = req.body;
+// Signup route
+router.post('/api/v1/user/signup', signup);
 
-    try {
-        const newUser = new User({ username, password, email });
-        await newUser.save();
-        res.status(201).json({ message: 'User created successfully', user: newUser });
-    } catch (error) {
-        res.status(400).json({ message: 'Error creating user', error });
-    }
-});
+// Login route
+router.post('/api/v1/user/login', login);
 
 module.exports = router;
