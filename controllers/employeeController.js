@@ -3,8 +3,8 @@ const Employee = require('../models/Employee');
 // Get all employees
 const getAllEmployees = async (req, res) => {
     try {
-        const employees = await Employee.find(); // Retrieve all employee records from MongoDB
-        res.status(200).json(employees); // Return the list of employees with a 200 status code
+        const employees = await Employee.find();
+        res.status(200).json(employees);
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
@@ -22,4 +22,18 @@ const createEmployee = async (req, res) => {
     }
 }
 
-module.exports = { getAllEmployees, createEmployee };
+// Get employee by ID
+const getEmployeeById = async (req, res) => {
+    const { eid } = req.params;
+    try {
+        const employee = await Employee.findById(eid);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+        res.status(200).json(employee);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+module.exports = { getAllEmployees, createEmployee, getEmployeeById };
