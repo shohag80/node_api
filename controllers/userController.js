@@ -13,7 +13,10 @@ const signup = async (req, res) => {
 
         const newUser = new User({ username, email, password });
         await newUser.save();
-        res.status(201).json({ message: 'User created successfully' });
+        res.status(201).json({ 
+            message: 'User created successfully',
+            user_id: newUser._id
+         });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
@@ -33,13 +36,13 @@ const login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign(
+        const jwt_token = jwt.sign(
             { userId: user._id, email: user.email },
             process.env.JWT_SECRET || require('crypto').randomBytes(64).toString('hex'),
             { expiresIn: '1h' }
         );
 
-        res.status(200).json({ message: 'Login successful', token });
+        res.status(200).json({ message: 'Login successful', jwt_token });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
