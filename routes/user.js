@@ -22,6 +22,6 @@ router.get('/api/v1/emp/employees/:eid', getEmployeeById);
 router.put('/api/v1/emp/employees/:eid', updateEmployeeById);
 
 // Route to delete employee by ID
-router.delete('/api/v1/emp/employees', deleteEmployeeById);
+router.delete('/api/v1/emp/employees/:eid', deleteEmployeeById);
 
 module.exports = router;
